@@ -1,6 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { api } from '../api/client'
 
 const Contact = () => {
+    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [status, setStatus] = useState("");
+    const [error, setError] = useState("");
+
+    function handleChange(event) {
+        setForm({ ...form, [event.target.name]: event.target.value });
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        setStatus("");
+        setError("");
+
+        try {
+            const { data } = await api.post("/contacts", form);
+            setStatus(data.message);
+            setForm({ name: "", email: "", message: "" });
+        } catch (err) {
+            setError(err.response?.data?.message || "Could not send message");
+        }
+    }
+
     return (
         <>
             {/* <!-- Hero Start --> */}
@@ -27,19 +50,21 @@ const Contact = () => {
                     <div class="row g-0">
                         <div class="col-lg-7">
                             <div class="bg-primary h-100 p-5">
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <div class="row g-3">
+                                        {status && <div class="col-12"><div class="alert alert-success">{status}</div></div>}
+                                        {error && <div class="col-12"><div class="alert alert-danger">{error}</div></div>}
                                         <div class="col-6">
-                                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Name" style={{ height: "55px" }} />
+                                            <input type="text" name="name" class="form-control bg-light border-0 px-4" onChange={handleChange} placeholder="Your Name" required style={{ height: "55px" }} value={form.name} />
                                         </div>
                                         <div class="col-6">
-                                            <input type="email" class="form-control bg-light border-0 px-4" placeholder="Your Email" style={{ height: "55px" }} />
+                                            <input type="email" name="email" class="form-control bg-light border-0 px-4" onChange={handleChange} placeholder="Your Email" required style={{ height: "55px" }} value={form.email} />
                                         </div>
                                         <div class="col-12">
                                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Subject" style={{ height: "55px" }} />
                                         </div>
                                         <div class="col-12">
-                                            <textarea class="form-control bg-light border-0 px-4 py-3" rows="2" placeholder="Message"></textarea>
+                                            <textarea class="form-control bg-light border-0 px-4 py-3" name="message" onChange={handleChange} required rows="2" placeholder="Message" value={form.message}></textarea>
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-secondary w-100 py-3" type="submit">Send Message</button>

@@ -9,6 +9,9 @@ import BlogDetail from './Componets/BlogDetail';
 import Service from './Componets/Service';
 import Contact from './Componets/Contact';
 import About from './Componets/About';
+import AuthPage from './Componets/AuthPage';
+import ForgotPassword from './Componets/ForgotPassword';
+import ResetPassword from './Componets/ResetPassword';
 
 function App() {
   return (
@@ -23,6 +26,10 @@ function App() {
           <Route path="/Service" element={<Service />}></Route >
           <Route path="/Contact" element={<Contact />}></Route >
           <Route path="/About" element={<About />}></Route >
+          <Route path="/login" element={<AuthPage mode="login" />}></Route >
+          <Route path="/register" element={<AuthPage mode="register" />}></Route >
+          <Route path="/forgot-password" element={<ForgotPassword />}></Route >
+          <Route path="/reset-password/:token" element={<ResetPassword />}></Route >
         </Routes>
         <Footer />
       </Router>

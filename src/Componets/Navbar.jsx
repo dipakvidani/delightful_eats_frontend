@@ -1,8 +1,11 @@
 import React from 'react'
 import Logo from '../img/Logo.png'
 import {Link} from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
+    const { isAuthenticated, logout, user } = useAuth();
+
     return (
         <>
             {/* <!-- Topbar Start --> */}
@@ -51,6 +54,14 @@ const Navbar = () => {
                         <Link to="/Service" class="nav-item nav-link">Service</Link>
                         <Link to="/Contact" class="nav-item nav-link">Contact</Link>
                         <Link to="/About" class="nav-item nav-link">About</Link>
+                        {!isAuthenticated && <Link to="/login" class="nav-item nav-link">Login</Link>}
+                        {!isAuthenticated && <Link to="/register" class="nav-item nav-link">Register</Link>}
+                        {isAuthenticated && <span class="nav-item nav-link">Hi, {user?.name}</span>}
+                        {isAuthenticated && (
+                            <button class="nav-item nav-link auth-nav-button" onClick={logout} type="button">
+                                Logout
+                            </button>
+                        )}
                     </div>
                 </div>
             </nav>

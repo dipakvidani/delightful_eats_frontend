@@ -76,6 +76,18 @@ a {
   transition: 0.5s;
 }
 
+.auth-nav-button {
+  background: transparent;
+  border: 0;
+}
+
+.auth-panel {
+  max-width: 520px;
+  background: #ffffff;
+  box-shadow: 0 0 45px #ededed;
+  padding: 36px;
+}
+
 .sticky-top.navbar-dark .navbar-nav .nav-link {
   padding: 20px 15px;
 }
